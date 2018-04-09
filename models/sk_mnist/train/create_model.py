@@ -7,7 +7,7 @@ import time
 
 if __name__ == '__main__':
 
-    time.sleep(600)
+    time.sleep(3600)
 
     mnist = fetch_mldata('MNIST original', data_home="./mnist_sklearn")
     # To apply a classifier on this data, we need to flatten the image, to
