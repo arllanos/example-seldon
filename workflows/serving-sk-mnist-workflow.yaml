@@ -79,12 +79,12 @@ spec:
        metadata: 
          labels: 
            app: "seldon"
-         name: "mnist-classifier"
+         name: "mnist-classifier-sk"
        spec: 
          annotations: 
            deployment_version: "v1"
            project_name: "MNIST Example"
-         name: "mnist-classifier"
+         name: "mnist-classifier-sk"
          predictors: 
            - 
              annotations: 
@@ -95,7 +95,7 @@ spec:
                    - 
                      image: "seldonio/skmnistclassifier_runtime:{{workflow.parameters.version}}"
                      imagePullPolicy: "Always"
-                     name: "mnist-classifier"
+                     name: "mnist-classifier-sk"
                      volumeMounts: 
                        - 
                          mountPath: "/data"
@@ -111,9 +111,9 @@ spec:
                children: []
                endpoint: 
                  type: "REST"
-               name: "mnist-classifier"
+               name: "mnist-classifier-sk"
                type: "MODEL"
-             name: "mnist-classifier"
+             name: "mnist-classifier-sk"
              replicas: 1
 
 
