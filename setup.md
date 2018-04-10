@@ -13,9 +13,6 @@ CLUSTER=kubeflow-seldon-ml
 
 gcloud beta container --project ${PROJECT} clusters create ${CLUSTER} \
        --zone=${ZONE} \
-       --cluster-version "1.9.2-gke.1" \
-       --machine-type "n1-standard-8" \
-       --image-type "COS" \
        --disk-size "100" \
        --num-nodes "3" 
 
