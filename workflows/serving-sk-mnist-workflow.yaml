@@ -12,13 +12,13 @@ spec:
     - name: version
       value: 0.1
     - name: github-user
-      value: SeldonIO
+      value: smolina74
     - name: github-revision
       value: master
     - name: docker-user
-      value: seldonio
+      value: smolina74
     - name: build-push-image
-      value: false
+      value: true
   volumes:
   - name: my-secret-vol
     secret:
