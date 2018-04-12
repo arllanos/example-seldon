@@ -93,7 +93,7 @@ spec:
                spec: 
                  containers: 
                    - 
-                     image: "seldonio/skmnistclassifier_runtime:{{workflow.parameters.version}}"
+                     image: "smolina74/skmnistclassifier_runtime:{{workflow.parameters.version}}"
                      imagePullPolicy: "Always"
                      name: "mnist-classifier-sk"
                      volumeMounts: 

@@ -9,7 +9,7 @@ spec:
     - name: version
       value: 0.1
     - name: github-user
-      value: kubeflow
+      value: smolina74
     - name: github-revision
       value: master      
     - name: docker-user
@@ -84,7 +84,7 @@ spec:
            spec: 
              containers: 
                - 
-                 image: "seldonio/skmnistclassifier_trainer:{{workflow.parameters.version}}"
+                 image: "smolina74/skmnistclassifier_trainer:{{workflow.parameters.version}}"
                  name: "sk-train"
                  volumeMounts: 
                    - 
