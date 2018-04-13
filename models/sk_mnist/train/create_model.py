@@ -34,6 +34,6 @@ if __name__ == '__main__':
           % (classifier, metrics.classification_report(expected, predicted)))
     print("Confusion matrix:\n%s" % metrics.confusion_matrix(expected, predicted))
 
-    joblib.dump(classifier, '/data/sk2.pkl') 
+    joblib.dump(classifier, '/data/sk3.pkl') 
 
 
