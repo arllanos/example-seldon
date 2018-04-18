@@ -7,7 +7,7 @@ spec:
   arguments:
     parameters:
     - name: version
-      value: 0.3
+      value: 0.4
     - name: github-user
       value: smolina74
     - name: github-revision
@@ -95,5 +95,5 @@ spec:
                - 
                  name: "persistent-storage"
                  persistentVolumeClaim: 
-                   claimName: "nfs-1"
+                   claimName: "my-existing-volume"
 

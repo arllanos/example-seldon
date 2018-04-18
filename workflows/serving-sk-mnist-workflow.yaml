@@ -18,7 +18,7 @@ spec:
     - name: docker-user
       value: smolina74
     - name: build-push-image
-      value: true
+      value: false
   volumes:
   - name: my-secret-vol
     secret:
@@ -106,7 +106,7 @@ spec:
                      name: "persistent-storage"
                      volumeSource: 
                        persistentVolumeClaim: 
-                         claimName: "nfs-1"
+                         claimName: "my-existing-volume"
              graph: 
                children: []
                endpoint: 
