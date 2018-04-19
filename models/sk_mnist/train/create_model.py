@@ -3,11 +3,9 @@ from sklearn import datasets, metrics
 from sklearn.utils import shuffle
 from sklearn.datasets import fetch_mldata
 from sklearn.externals import joblib
-import time
 
 if __name__ == '__main__':
 
-    time.sleep(300)
 
     mnist = fetch_mldata('MNIST original', data_home="./mnist_sklearn")
     # To apply a classifier on this data, we need to flatten the image, to
