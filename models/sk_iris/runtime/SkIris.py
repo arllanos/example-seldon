@@ -10,7 +10,7 @@ class SkIris(object):
 
     def predict(self,X,feature_names):
         file = open('messages.txt', 'w')
-        file.write(type(X))
+        file.write(str(type(X)))
         file.write(str(X))
         try:
             feature_matrix = X
