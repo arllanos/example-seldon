@@ -1,4 +1,7 @@
 from sklearn.externals import joblib
+from sklearn.linear_model import Perceptron
+from sklearn.preprocessing import StandardScaler
+
 
 class SkMnist(object):
     def __init__(self):

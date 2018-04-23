@@ -1,7 +1,7 @@
 VERSION=$1
 REPO=$2
 
-IMAGE=skirislassifier_runtime
+IMAGE=skirisclassifier_runtime
 
 until docker ps; 
 do sleep 3; 
