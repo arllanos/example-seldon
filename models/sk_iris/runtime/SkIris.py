@@ -3,7 +3,7 @@ from sklearn.linear_model import Perceptron
 from sklearn.preprocessing import StandardScaler
 
 
-class SkMnist(object):
+class SkIris(object):
     def __init__(self):
         self.class_names = ["class:{}".format(str(i)) for i in range(10)]
         self.clf = joblib.load('/data/sk_iris.pkl') 
