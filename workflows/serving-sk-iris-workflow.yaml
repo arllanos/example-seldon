@@ -4,7 +4,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: seldon-sk-deploy-
+  generateName: seldon-sk-iris-deploy-
 spec:
   entrypoint: workflow
   arguments:
@@ -42,7 +42,7 @@ spec:
     container:
       image: docker:17.10
       command: [sh,-c]
-      args: ["cd /src/example-seldon/models/sk_mnist/runtime ; ./wrap.sh {{workflow.parameters.version}} {{workflow.parameters.docker-user}}"]
+      args: ["cd /src/example-seldon/models/sk_iris/runtime ; ./wrap.sh {{workflow.parameters.version}} {{workflow.parameters.docker-user}}"]
       env:
       - name: DOCKER_HOST               #the docker daemon can be access on the standard port on localhost
         value: 127.0.0.1
@@ -79,12 +79,12 @@ spec:
        metadata: 
          labels: 
            app: "seldon"
-         name: "mnist-classifier-sk"
+         name: "iris-classifier-sk"
        spec: 
          annotations: 
            deployment_version: "v1"
-           project_name: "MNIST Example"
-         name: "mnist-classifier-sk"
+           project_name: "IRIS Example"
+         name: "iris-classifier-sk"
          predictors: 
            - 
              annotations: 
@@ -93,9 +93,9 @@ spec:
                spec: 
                  containers: 
                    - 
-                     image: "smolina74/skmnistclassifier_runtime:{{workflow.parameters.version}}"
+                     image: "smolina74/skirisclassifier_runtime:{{workflow.parameters.version}}"
                      imagePullPolicy: "Always"
-                     name: "mnist-classifier-sk"
+                     name: "iris-classifier-sk"
                      volumeMounts: 
                        - 
                          mountPath: "/data"
@@ -111,9 +111,9 @@ spec:
                children: []
                endpoint: 
                  type: "REST"
-               name: "mnist-classifier-sk"
+               name: "iris-classifier-sk"
                type: "MODEL"
-             name: "mnist-classifier-sk"
+             name: "iris-classifier-sk"
              replicas: 1
 
 
