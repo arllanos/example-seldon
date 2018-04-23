@@ -7,7 +7,7 @@ until docker ps;
 do sleep 3; 
 done; 
 
-docker run -v  ${PWD}:/my_model seldonio/core-python-wrapper:0.6 /my_model SkIris ${VERSION} ${REPO} --image-name=${IMAGE}
+docker run -v  ${PWD}:/my_model seldonio/core-python-wrapper:0.7 /my_model SkIris ${VERSION} ${REPO} --image-name=${IMAGE}
 cd ./build
 ./build_image.sh
 docker images 
