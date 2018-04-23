@@ -9,7 +9,9 @@ class SkIris(object):
         self.clf = joblib.load('/data/sk_iris.pkl') 
 
     def predict(self,X,feature_names):
-
+        file = open('messages.txt', 'w')
+        file.write(str(X))
+        file.close()
         feature_matrix = X
         sc = StandardScaler()
         sc.fit(feature_matrix)
