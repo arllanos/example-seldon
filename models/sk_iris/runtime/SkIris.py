@@ -10,13 +10,17 @@ class SkIris(object):
 
     def predict(self,X,feature_names):
         file = open('messages.txt', 'w')
+        file.write(type(X))
         file.write(str(X))
-        file.close()
-        feature_matrix = X
-        sc = StandardScaler()
-        sc.fit(feature_matrix)
-        X_test_std = sc.transform(feature_matrix)
-        predictions =   self.clf.predict(X_test_std)
-        return predictions
+        try:
+            feature_matrix = X
+            sc = StandardScaler()
+            sc.fit(feature_matrix)
+            X_test_std = sc.transform(feature_matrix)
+            predictions =   self.clf.predict(X_test_std)
+            file.write(str(predictions))
+            return predictions
+        except Exception as err:
+            file.write('The error is: ' + str(err))
 
     
