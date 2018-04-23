@@ -3,6 +3,10 @@ REPO=$2
 
 IMAGE=skirisclassifier_runtime
 
+
+apk add --update openssl
+
+
 wget https://github.com/openshift/source-to-image/releases/download/v1.1.9a/source-to-image-v1.1.9a-40ad911d-linux-amd64.tar.gz
 tar -zxf source-to-image-v1.1.9a-40ad911d-linux-amd64.tar.gz
 
