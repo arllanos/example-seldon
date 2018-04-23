@@ -19,8 +19,10 @@ class SkIris(object):
             X_test_std = sc.transform(feature_matrix)
             predictions =   self.clf.predict(X_test_std)
             file.write(str(predictions))
+            file.close()
             return predictions
+
         except Exception as err:
             file.write('The error is: ' + str(err))
-
-    
+            file.close()    
+        
