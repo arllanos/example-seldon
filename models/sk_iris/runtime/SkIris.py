@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 
 class SkIris(object):
     def __init__(self):
-        self.class_names = ["class:{}".format(str(i)) for i in range(10)]
+        self.class_names = [0,1,3]
         self.clf = joblib.load('/data/sk_iris.pkl') 
 
     def predict(self,X,feature_names):
@@ -17,7 +17,7 @@ class SkIris(object):
             sc = StandardScaler()
             sc.fit(feature_matrix)
             X_test_std = sc.transform(feature_matrix)
-            predictions =   self.clf.predict(X_test_std)
+            predictions =   self.clf.predict_proba(X_test_std)
             file.write(str(predictions))
             file.write(str(predictions.shape))
             file.close()
