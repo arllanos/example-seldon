@@ -19,6 +19,7 @@ class SkIris(object):
             X_test_std = sc.transform(feature_matrix)
             predictions =   self.clf.predict(X_test_std)
             file.write(str(predictions))
+            file.write(str(predictions.shape))
             file.close()
             return predictions
 
