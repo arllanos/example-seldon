@@ -17,7 +17,7 @@ class SkIris(object):
             sc = StandardScaler()
             sc.fit(feature_matrix)
             X_test_std = sc.transform(feature_matrix)
-            predictions = self.model.predict(X_test_std).reshape(1, -1)
+            predictions = self.clf.predict(X_test_std).reshape(1, -1)
             file.write(str(predictions))
             file.write(str(predictions.shape))
             file.close()
