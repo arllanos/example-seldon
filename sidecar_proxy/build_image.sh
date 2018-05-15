@@ -1,0 +1,1 @@
+docker build --force-rm=true -t smolina74/iesidecar:0.1 .
