@@ -2,7 +2,7 @@ apiVersion: "batch/v1"
 kind: "Job"
 metadata: 
   name: "sk-train"
-  namespace: "default"
+
 spec: 
   template: 
     metadata: 
@@ -21,4 +21,4 @@ spec:
         - 
           name: "persistent-storage"
           persistentVolumeClaim: 
-            claimName: "ml-data"
+            claimName: "nfs-1"

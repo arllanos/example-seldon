@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v0
+      kind:  Mapping
+      name:  mnist-classifier_rest_mapping
+      prefix: /mnist/prediction/
+      service: mnist-classifier
+
+  creationTimestamp: null
+  labels:
+    seldon-app: mnist-classifier
+    seldon-deployment-id: mnist-classifier
+  name: mnist-classifier
+  ownerReferences:
+  - apiVersion: machinelearning.seldon.io/v1alpha1
+    controller: true
+    kind: SeldonDeployment
+    name: mnist-classifier
+    uid: 2a230e88-59e0-11e8-8ffd-42010a8e0031
+  selfLink: /api/v1/namespaces/kubeflow-seldon/services/mnist-classifier
+spec:
+  ports:
+  - name: http
+    port: 9001
+    protocol: TCP
+    targetPort: 9001
+  selector:
+    seldon-app: mnist-classifier
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

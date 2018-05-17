@@ -39,7 +39,8 @@ spec:
         prometheus.io/scrape: "true"
       creationTimestamp: null
       labels:
-        seldon-app: mnist-classifier-sk
+        seldon-app: mnist-classifier
+        version: sk
     spec:
       containers:
       - env:
@@ -53,7 +54,7 @@ spec:
           value: mnist-classifier-sk
         - name: SELDON_DEPLOYMENT_ID
           value: mnist-classifier-sk
-        image: smolina74/skmnistclassifier_runtime:0.3
+        image: seldonio/skmnistclassifier_runtime:0.1
         imagePullPolicy: Always
         lifecycle:
           preStop:
