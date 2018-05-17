@@ -1,0 +1,157 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  creationTimestamp: null
+  generation: 1
+  labels:
+    app: mnist-classifier-mnist-classifier
+    seldon-app: mnist-classifier
+    seldon-deployment-id: mnist-classifier
+    seldon-type: deployment
+    version: v1
+  name: mnist-classifier-mnist-classifier
+  ownerReferences:
+  - apiVersion: machinelearning.seldon.io/v1alpha1
+    controller: true
+    kind: SeldonDeployment
+    name: mnist-classifier
+    uid: 2a230e88-59e0-11e8-8ffd-42010a8e0031
+  selfLink: /apis/extensions/v1beta1/namespaces/kubeflow-seldon/deployments/mnist-classifier-mnist-classifier
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      seldon-app: mnist-classifier
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 10%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /prometheus
+        prometheus.io/port: "8000"
+        prometheus.io/scrape: "true"
+      creationTimestamp: null
+      labels:
+        seldon-app: mnist-classifier
+    spec:
+      containers:
+      - env:
+        - name: PREDICTIVE_UNIT_SERVICE_PORT
+          value: "9000"
+        - name: PREDICTIVE_UNIT_PARAMETERS
+          value: '[]'
+        - name: PREDICTIVE_UNIT_ID
+          value: mnist-classifier
+        - name: PREDICTOR_ID
+          value: mnist-classifier
+        - name: SELDON_DEPLOYMENT_ID
+          value: mnist-classifier
+        image: smolina74/deepmnistclassifier_runtime:0.1
+        imagePullPolicy: Always
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - /bin/sleep 5
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: http
+          timeoutSeconds: 1
+        name: mnist-classifier
+        ports:
+        - containerPort: 9000
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: http
+          timeoutSeconds: 1
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /data
+          name: persistent-storage
+      - env:
+        - name: ENGINE_PREDICTOR
+          value: eyJuYW1lIjoibW5pc3QtY2xhc3NpZmllciIsImdyYXBoIjp7Im5hbWUiOiJtbmlzdC1jbGFzc2lmaWVyIiwidHlwZSI6Ik1PREVMIiwiZW5kcG9pbnQiOnsic2VydmljZV9ob3N0IjoiMC4wLjAuMCIsInNlcnZpY2VfcG9ydCI6OTAwMCwidHlwZSI6IlJFU1QifX0sImNvbXBvbmVudFNwZWMiOnsibWV0YWRhdGEiOnsibGFiZWxzIjp7InNlbGRvbi1hcHAiOiJtbmlzdC1jbGFzc2lmaWVyIn19LCJzcGVjIjp7InZvbHVtZXMiOlt7Im5hbWUiOiJwZXJzaXN0ZW50LXN0b3JhZ2UiLCJ2b2x1bWVTb3VyY2UiOnsicGVyc2lzdGVudFZvbHVtZUNsYWltIjp7ImNsYWltTmFtZSI6Im5mcy0xIn19fV0sImNvbnRhaW5lcnMiOlt7Im5hbWUiOiJtbmlzdC1jbGFzc2lmaWVyIiwiaW1hZ2UiOiJzbW9saW5hNzQvZGVlcG1uaXN0Y2xhc3NpZmllcl9ydW50aW1lOjAuMSIsInBvcnRzIjpbeyJuYW1lIjoiaHR0cCIsImNvbnRhaW5lclBvcnQiOjkwMDB9XSwiZW52IjpbeyJuYW1lIjoiUFJFRElDVElWRV9VTklUX1NFUlZJQ0VfUE9SVCIsInZhbHVlIjoiOTAwMCJ9LHsibmFtZSI6IlBSRURJQ1RJVkVfVU5JVF9QQVJBTUVURVJTIiwidmFsdWUiOiJbXSJ9LHsibmFtZSI6IlBSRURJQ1RJVkVfVU5JVF9JRCIsInZhbHVlIjoibW5pc3QtY2xhc3NpZmllciJ9LHsibmFtZSI6IlBSRURJQ1RPUl9JRCIsInZhbHVlIjoibW5pc3QtY2xhc3NpZmllciJ9LHsibmFtZSI6IlNFTERPTl9ERVBMT1lNRU5UX0lEIiwidmFsdWUiOiJtbmlzdC1jbGFzc2lmaWVyIn1dLCJ2b2x1bWVNb3VudHMiOlt7Im5hbWUiOiJwZXJzaXN0ZW50LXN0b3JhZ2UiLCJtb3VudFBhdGgiOiIvZGF0YSJ9XSwibGl2ZW5lc3NQcm9iZSI6eyJoYW5kbGVyIjp7InRjcFNvY2tldCI6eyJwb3J0IjoiaHR0cCJ9fSwiaW5pdGlhbERlbGF5U2Vjb25kcyI6MTAsInBlcmlvZFNlY29uZHMiOjV9LCJyZWFkaW5lc3NQcm9iZSI6eyJoYW5kbGVyIjp7InRjcFNvY2tldCI6eyJwb3J0IjoiaHR0cCJ9fSwiaW5pdGlhbERlbGF5U2Vjb25kcyI6MTAsInBlcmlvZFNlY29uZHMiOjV9LCJsaWZlY3ljbGUiOnsicHJlU3RvcCI6eyJleGVjIjp7ImNvbW1hbmQiOlsiL2Jpbi9zaCIsIi1jIiwiL2Jpbi9zbGVlcCA1Il19fX0sImltYWdlUHVsbFBvbGljeSI6IkFsd2F5cyJ9XSwidGVybWluYXRpb25HcmFjZVBlcmlvZFNlY29uZHMiOjF9fSwicmVwbGljYXMiOjEsImFubm90YXRpb25zIjp7InByZWRpY3Rvcl92ZXJzaW9uIjoidjEifX0=
+        - name: ENGINE_SELDON_DEPLOYMENT
+          value: eyJhcGlWZXJzaW9uIjoibWFjaGluZWxlYXJuaW5nLnNlbGRvbi5pby92MWFscGhhMSIsImtpbmQiOiJTZWxkb25EZXBsb3ltZW50IiwibWV0YWRhdGEiOnsibmFtZSI6Im1uaXN0LWNsYXNzaWZpZXIiLCJuYW1lc3BhY2UiOiJrdWJlZmxvdy1zZWxkb24iLCJzZWxmTGluayI6Ii9hcGlzL21hY2hpbmVsZWFybmluZy5zZWxkb24uaW8vdjFhbHBoYTEvbmFtZXNwYWNlcy9rdWJlZmxvdy1zZWxkb24vc2VsZG9uZGVwbG95bWVudHMvbW5pc3QtY2xhc3NpZmllciIsInVpZCI6IjJhMjMwZTg4LTU5ZTAtMTFlOC04ZmZkLTQyMDEwYThlMDAzMSIsInJlc291cmNlVmVyc2lvbiI6IjExNjU1IiwiZ2VuZXJhdGlvbiI6MCwiY3JlYXRpb25UaW1lc3RhbXAiOiIyMDE4LTA1LTE3VDE0OjM5OjU0WiIsImxhYmVscyI6eyJhcHAiOiJzZWxkb24ifSwiYW5ub3RhdGlvbnMiOnsia3ViZWN0bC5rdWJlcm5ldGVzLmlvL2xhc3QtYXBwbGllZC1jb25maWd1cmF0aW9uIjoie1wiYXBpVmVyc2lvblwiOlwibWFjaGluZWxlYXJuaW5nLnNlbGRvbi5pby92MWFscGhhMVwiLFwia2luZFwiOlwiU2VsZG9uRGVwbG95bWVudFwiLFwibWV0YWRhdGFcIjp7XCJhbm5vdGF0aW9uc1wiOnt9LFwibGFiZWxzXCI6e1wiYXBwXCI6XCJzZWxkb25cIn0sXCJuYW1lXCI6XCJtbmlzdC1jbGFzc2lmaWVyXCIsXCJuYW1lc3BhY2VcIjpcImt1YmVmbG93LXNlbGRvblwifSxcInNwZWNcIjp7XCJhbm5vdGF0aW9uc1wiOntcImRlcGxveW1lbnRfdmVyc2lvblwiOlwidjFcIixcInByb2plY3RfbmFtZVwiOlwiTU5JU1QgRXhhbXBsZVwifSxcIm5hbWVcIjpcIm1uaXN0LWNsYXNzaWZpZXJcIixcInByZWRpY3RvcnNcIjpbe1wiYW5ub3RhdGlvbnNcIjp7XCJwcmVkaWN0b3JfdmVyc2lvblwiOlwidjFcIn0sXCJjb21wb25lbnRTcGVjXCI6e1wic3BlY1wiOntcImNvbnRhaW5lcnNcIjpbe1wiaW1hZ2VcIjpcInNtb2xpbmE3NC9kZWVwbW5pc3RjbGFzc2lmaWVyX3J1bnRpbWU6MC4xXCIsXCJpbWFnZVB1bGxQb2xpY3lcIjpcIkFsd2F5c1wiLFwibmFtZVwiOlwibW5pc3QtY2xhc3NpZmllclwiLFwidm9sdW1lTW91bnRzXCI6W3tcIm1vdW50UGF0aFwiOlwiL2RhdGFcIixcIm5hbWVcIjpcInBlcnNpc3RlbnQtc3RvcmFnZVwifV19XSxcInRlcm1pbmF0aW9uR3JhY2VQZXJpb2RTZWNvbmRzXCI6MSxcInZvbHVtZXNcIjpbe1wibmFtZVwiOlwicGVyc2lzdGVudC1zdG9yYWdlXCIsXCJ2b2x1bWVTb3VyY2VcIjp7XCJwZXJzaXN0ZW50Vm9sdW1lQ2xhaW1cIjp7XCJjbGFpbU5hbWVcIjpcIm5mcy0xXCJ9fX1dfX0sXCJncmFwaFwiOntcImNoaWxkcmVuXCI6W10sXCJlbmRwb2ludFwiOntcInR5cGVcIjpcIlJFU1RcIn0sXCJuYW1lXCI6XCJtbmlzdC1jbGFzc2lmaWVyXCIsXCJ0eXBlXCI6XCJNT0RFTFwifSxcIm5hbWVcIjpcIm1uaXN0LWNsYXNzaWZpZXJcIixcInJlcGxpY2FzXCI6MX1dfX1cbiJ9LCJjbHVzdGVyTmFtZSI6IiJ9LCJzcGVjIjp7Im5hbWUiOiJtbmlzdC1jbGFzc2lmaWVyIiwicHJlZGljdG9ycyI6W3sibmFtZSI6Im1uaXN0LWNsYXNzaWZpZXIiLCJncmFwaCI6eyJuYW1lIjoibW5pc3QtY2xhc3NpZmllciIsInR5cGUiOiJNT0RFTCIsImVuZHBvaW50Ijp7InNlcnZpY2VfaG9zdCI6IjAuMC4wLjAiLCJzZXJ2aWNlX3BvcnQiOjkwMDAsInR5cGUiOiJSRVNUIn19LCJjb21wb25lbnRTcGVjIjp7Im1ldGFkYXRhIjp7ImxhYmVscyI6eyJzZWxkb24tYXBwIjoibW5pc3QtY2xhc3NpZmllciJ9fSwic3BlYyI6eyJ2b2x1bWVzIjpbeyJuYW1lIjoicGVyc2lzdGVudC1zdG9yYWdlIiwidm9sdW1lU291cmNlIjp7InBlcnNpc3RlbnRWb2x1bWVDbGFpbSI6eyJjbGFpbU5hbWUiOiJuZnMtMSJ9fX1dLCJjb250YWluZXJzIjpbeyJuYW1lIjoibW5pc3QtY2xhc3NpZmllciIsImltYWdlIjoic21vbGluYTc0L2RlZXBtbmlzdGNsYXNzaWZpZXJfcnVudGltZTowLjEiLCJwb3J0cyI6W3sibmFtZSI6Imh0dHAiLCJjb250YWluZXJQb3J0Ijo5MDAwfV0sImVudiI6W3sibmFtZSI6IlBSRURJQ1RJVkVfVU5JVF9TRVJWSUNFX1BPUlQiLCJ2YWx1ZSI6IjkwMDAifSx7Im5hbWUiOiJQUkVESUNUSVZFX1VOSVRfUEFSQU1FVEVSUyIsInZhbHVlIjoiW10ifSx7Im5hbWUiOiJQUkVESUNUSVZFX1VOSVRfSUQiLCJ2YWx1ZSI6Im1uaXN0LWNsYXNzaWZpZXIifSx7Im5hbWUiOiJQUkVESUNUT1JfSUQiLCJ2YWx1ZSI6Im1uaXN0LWNsYXNzaWZpZXIifSx7Im5hbWUiOiJTRUxET05fREVQTE9ZTUVOVF9JRCIsInZhbHVlIjoibW5pc3QtY2xhc3NpZmllciJ9XSwidm9sdW1lTW91bnRzIjpbeyJuYW1lIjoicGVyc2lzdGVudC1zdG9yYWdlIiwibW91bnRQYXRoIjoiL2RhdGEifV0sImxpdmVuZXNzUHJvYmUiOnsiaGFuZGxlciI6eyJ0Y3BTb2NrZXQiOnsicG9ydCI6Imh0dHAifX0sImluaXRpYWxEZWxheVNlY29uZHMiOjEwLCJwZXJpb2RTZWNvbmRzIjo1fSwicmVhZGluZXNzUHJvYmUiOnsiaGFuZGxlciI6eyJ0Y3BTb2NrZXQiOnsicG9ydCI6Imh0dHAifX0sImluaXRpYWxEZWxheVNlY29uZHMiOjEwLCJwZXJpb2RTZWNvbmRzIjo1fSwibGlmZWN5Y2xlIjp7InByZVN0b3AiOnsiZXhlYyI6eyJjb21tYW5kIjpbIi9iaW4vc2giLCItYyIsIi9iaW4vc2xlZXAgNSJdfX19LCJpbWFnZVB1bGxQb2xpY3kiOiJBbHdheXMifV0sInRlcm1pbmF0aW9uR3JhY2VQZXJpb2RTZWNvbmRzIjoxfX0sInJlcGxpY2FzIjoxLCJhbm5vdGF0aW9ucyI6eyJwcmVkaWN0b3JfdmVyc2lvbiI6InYxIn19XSwiYW5ub3RhdGlvbnMiOnsiZGVwbG95bWVudF92ZXJzaW9uIjoidjEiLCJwcm9qZWN0X25hbWUiOiJNTklTVCBFeGFtcGxlIn19fQ==
+        - name: ENGINE_SERVER_PORT
+          value: "8000"
+        - name: ENGINE_SERVER_GRPC_PORT
+          value: "5001"
+        - name: JAVA_OPTS
+          value: -Dcom.sun.management.jmxremote.rmi.port=9090 -Dcom.sun.management.jmxremote
+            -Dcom.sun.management.jmxremote.port=9090 -Dcom.sun.management.jmxremote.ssl=false
+            -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false
+            -Djava.rmi.server.hostname=127.0.0.1
+        image: seldonio/engine:0.1.6
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - curl 127.0.0.1:8000/pause && /bin/sleep 5
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ready
+            port: admin
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        name: seldon-container-engine
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+        - containerPort: 8082
+          name: admin
+          protocol: TCP
+        - containerPort: 9090
+          name: jmx
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ready
+            port: admin
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        resources:
+          requests:
+            cpu: 100m
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 20
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: nfs-1
+status: {}

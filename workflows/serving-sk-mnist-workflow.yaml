@@ -10,14 +10,16 @@ spec:
   arguments:
     parameters:
     - name: version
-      value: 0.3
+      value: 0.1
     - name: github-user
-      value: smolina74
+      value: kubeflow
     - name: github-revision
       value: master
     - name: docker-user
-      value: smolina74
+      value: seldonio
     - name: build-push-image
+      value: false
+    - name: deploy-model
       value: false
   volumes:
   - name: my-secret-vol
@@ -31,6 +33,7 @@ spec:
         when: "{{workflow.parameters.build-push-image}} == true"
     - - name: serve
         template: seldon
+        when: "{{workflow.parameters.deploy-model}} == true"		
   - name: build-and-push
     inputs:
       artifacts:
@@ -79,12 +82,12 @@ spec:
        metadata: 
          labels: 
            app: "seldon"
-         name: "mnist-classifier-sk"
+         name: "mnist-classifier"
        spec: 
          annotations: 
            deployment_version: "v1"
            project_name: "MNIST Example"
-         name: "mnist-classifier-sk"
+         name: "mnist-classifier"
          predictors: 
            - 
              annotations: 
@@ -93,9 +96,9 @@ spec:
                spec: 
                  containers: 
                    - 
-                     image: "smolina74/skmnistclassifier_runtime:{{workflow.parameters.version}}"
+                     image: "{{workflow.parameters.docker-user}}/skmnistclassifier_runtime:{{workflow.parameters.version}}"
                      imagePullPolicy: "Always"
-                     name: "mnist-classifier-sk"
+                     name: "mnist-classifier"
                      volumeMounts: 
                        - 
                          mountPath: "/data"
@@ -111,9 +114,9 @@ spec:
                children: []
                endpoint: 
                  type: "REST"
-               name: "mnist-classifier-sk"
+               name: "mnist-classifier"
                type: "MODEL"
-             name: "mnist-classifier-sk"
+             name: "mnist-classifier"
              replicas: 1
 
 

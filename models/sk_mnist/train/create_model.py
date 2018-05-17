@@ -6,7 +6,6 @@ from sklearn.externals import joblib
 
 if __name__ == '__main__':
 
-
     mnist = fetch_mldata('MNIST original', data_home="./mnist_sklearn")
     # To apply a classifier on this data, we need to flatten the image, to
     # turn the data in a (samples, feature) matrix:
@@ -32,6 +31,6 @@ if __name__ == '__main__':
           % (classifier, metrics.classification_report(expected, predicted)))
     print("Confusion matrix:\n%s" % metrics.confusion_matrix(expected, predicted))
 
-    joblib.dump(classifier, '/data/sk4.pkl') 
+    joblib.dump(classifier, '/data/sk.pkl') 
 
 

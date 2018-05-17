@@ -1,7 +1,7 @@
 apiVersion: "batch/v1"
 kind: "Job"
 metadata: 
-  name: "sk-train2"
+  name: "sk-train"
   namespace: "default"
 spec: 
   template: 
@@ -10,7 +10,7 @@ spec:
     spec: 
       containers: 
         - 
-          image: "smolina74/skmnistclassifier_trainer:0.6"
+          image: "seldonio/skmnistclassifier_trainer:0.1"
           name: "sk-train"
           volumeMounts: 
             - 
@@ -21,4 +21,4 @@ spec:
         - 
           name: "persistent-storage"
           persistentVolumeClaim: 
-            claimName: "nfs-1"
+            claimName: "ml-data"

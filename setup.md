@@ -13,6 +13,9 @@ CLUSTER=kubeflow-seldon-ml
 
 gcloud beta container --project ${PROJECT} clusters create ${CLUSTER} \
        --zone=${ZONE} \
+       --cluster-version "1.9.2-gke.1" \
+       --machine-type "n1-standard-8" \
+       --image-type "COS" \
        --disk-size "100" \
        --num-nodes "3" 
 
@@ -23,7 +26,13 @@ gcloud compute disks create --project=${PROJECT} --zone=${ZONE} nfs-1 --descript
 
 ## Install kubeflow and seldon-core onto your cluster
 
-Install the [ksonnet binary](https://github.com/ksonnet/ksonnet/releases)
+Install the [ksonnet binary](https://github.com/ksonnet/ksonnet/releases).
+
+Note:
+
+  * The demo has been tested with ksonnet 0.9.1 and 0.9.2
+  * The demo does **NOT** work with the latest alpha release of ksonnet 0.10.0.alpha.1
+
 
 You will need to setup a github personal token to stop rate-limiting see [here](https://github.com/ksonnet/ksonnet/blob/master/docs/troubleshooting.md)
 
@@ -110,6 +119,8 @@ kubectl port-forward $(kubectl get pods -n kubeflow-seldon -l app=argo-ui -o jso
 ```
 
 Visit http://localhost:8001/timeline
+
+### Grafana Dashboard
 
 *Optional*: Install seldon-core prometheus and Grafana dashboard
 

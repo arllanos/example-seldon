@@ -1,7 +1,7 @@
 VERSION=$1
 REPO=$2
 
-IMAGE=deepmnistclassifier_runtime
+IMAGE=rmnistclassifier_runtime
 
 export DOCKER_HOST="tcp://127.0.0.1:2375"
 echo "DOCKER_HOST set to $DOCKER_HOST"
@@ -15,11 +15,9 @@ until docker ps;
 do sleep 3; 
 done; 
 
-./s2i build . seldonio/seldon-core-s2i-python2 ${REPO}/${IMAGE}:${VERSION}
+./s2i build . seldonio/seldon-core-s2i-r ${REPO}/${IMAGE}:${VERSION}
 docker images 
 echo "Pushing image to ${REPO}/${IMAGE}:${VERSION}"
 echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME --password-stdin 
 docker push ${REPO}/${IMAGE}:${VERSION}
-
-
 

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: kubeflow-sk-train-
+  generateName: kubeflow-r-train-
 spec:
   entrypoint: workflow
   arguments:
@@ -39,7 +39,7 @@ spec:
     container:
       image: docker:17.10
       command: [sh,-c]
-      args: ["cd /src/example-seldon/models/sk_mnist/train ; ./build_and_push.sh {{workflow.parameters.version}} {{workflow.parameters.docker-user}}"]
+      args: ["cd /src/example-seldon/models/r_mnist/train ; ./build_and_push.sh {{workflow.parameters.version}} {{workflow.parameters.docker-user}}"]
       env:
       - name: DOCKER_HOST               #the docker daemon can be access on the standard port on localhost
         value: 127.0.0.1
@@ -70,7 +70,7 @@ spec:
        apiVersion: "batch/v1"
        kind: "Job"
        metadata: 
-         name: "sk-train"
+         name: "r-train"
          ownerReferences:
          - apiVersion: argoproj.io/v1alpha1
            kind: Workflow
@@ -80,12 +80,12 @@ spec:
        spec: 
          template: 
            metadata: 
-             name: "sk-train"
+             name: "r-train"
            spec: 
              containers: 
                - 
-                 image: "{{workflow.parameters.docker-user}}/skmnistclassifier_trainer:{{workflow.parameters.version}}"
-                 name: "sk-train"
+                 image: "{{workflow.parameters.docker-user}}/rmnistclassifier_trainer:{{workflow.parameters.version}}"
+                 name: "r-train"
                  volumeMounts: 
                    - 
                      mountPath: "/data"
