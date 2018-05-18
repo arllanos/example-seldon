@@ -2,6 +2,7 @@ from proto import prediction_pb2
 from proto import prediction_pb2_grpc
 import grpc
 import requests
+import json
 
 
 def rest_request(deploymentName,request):
@@ -9,8 +10,10 @@ def rest_request(deploymentName,request):
     print(request)
     print('----')
     response = requests.post(
-                "http://localhost:8000/api/v0.1/predictions",
-                json=request)
+                "http://localhost:8002/skmnist/prediction/predict",
+                # "http://localhost:8000/api/v0.1/predictions",
+                # json=request)
+                data={'json': json.dumps(request)})
     return response.json()
 
 

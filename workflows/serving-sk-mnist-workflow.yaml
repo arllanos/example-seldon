@@ -14,11 +14,11 @@ spec:
     - name: github-user
       value: kubeflow
     - name: github-revision
-      value: master
+      value: smolina74
     - name: docker-user
-      value: seldonio
+      value: smolina74
     - name: build-push-image
-      value: false
+      value: true
     - name: deploy-model
       value: false
   volumes:
