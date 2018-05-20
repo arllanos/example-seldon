@@ -8,12 +8,12 @@ metadata:
   creationTimestamp: null
   generation: 1
   labels:
-    app: mnist-classifier-sk-mnist-classifier-sk
-    seldon-app: mnist-classifier-sk
-    seldon-deployment-id: mnist-classifier-sk
+    app: mnist-classifier-mnist-classifier-sk
+    seldon-app: mnist-classifier
+    seldon-deployment-id: mnist-classifier
     seldon-type: deployment
     version: v1
-  name: mnist-classifier-sk-mnist-classifier-sk
+  name: mnist-classifier-mnist-classifier-sk
   ownerReferences:
   - apiVersion: machinelearning.seldon.io/v1alpha1
     controller: true
@@ -25,7 +25,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      seldon-app: mnist-classifier-sk
+      seldon-app: mnist-classifier
   strategy:
     rollingUpdate:
       maxSurge: 1

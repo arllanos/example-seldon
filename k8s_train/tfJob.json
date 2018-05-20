@@ -2,8 +2,7 @@
     "apiVersion": "kubeflow.org/v1alpha1",
     "kind": "TFJob",
     "metadata": {
-        "name": "mnist-train",
-        "namespace": "kubeflow-seldon"
+        "name": "mnist-train"
     },
     "spec": {
         "replicaSpecs": [
@@ -28,7 +27,7 @@
                             {
                                 "name": "persistent-storage",
                                 "persistentVolumeClaim": {
-                                    "claimName": "ml-data"
+                                    "claimName": "nfs-1"
                                 }
                             }
                         ]
