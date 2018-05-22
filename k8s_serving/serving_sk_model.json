@@ -3,7 +3,9 @@
     "kind": "SeldonDeployment",
     "metadata": {
         "labels": {
-            "app": "seldon"
+            "app": "seldon",
+            "seldon-app": "mnist-classifier",
+            "prediction-version": "sk"
         },
         "name": "mnist-classifier"
     },
@@ -12,7 +14,7 @@
             "deployment_version": "v1",
             "project_name": "MNIST Example"
         },
-        "name": "mnist-classifier",
+        "name": "mnist-classifier-2",
         "predictors": [
             {
                 "annotations": {
@@ -31,6 +33,19 @@
                                         "name": "persistent-storage"
                                     }
                                 ]
+                            },
+                            {
+                                "image": "smolina74/iesidecar:0.1",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "ie-sidecar",
+                                "ports": [
+                                    {
+                                        "containerPort": 9001,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
                             }
                         ],
                         "terminationGracePeriodSeconds": 1,

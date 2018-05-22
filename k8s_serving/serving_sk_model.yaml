@@ -1,0 +1,47 @@
+apiVersion: machinelearning.seldon.io/v1alpha1
+kind: SeldonDeployment
+metadata:
+  labels:
+    app: seldon
+    seldon-app: mnist-classifier
+    prediction-version: sk
+  name: mnist-classifier-sk
+spec:
+  annotations:
+    deployment_version: v1
+    project_name: MNIST Example
+  name: mnist-classifier
+  predictors:
+  - annotations:
+      predictor_version: v1
+    componentSpec:
+      spec:
+        containers:
+        - image: seldonio/skmnistclassifier_runtime:0.1
+          imagePullPolicy: Always
+          name: sk-model
+          volumeMounts:
+          - mountPath: "/data"
+            name: persistent-storage
+        - image: smolina74/iesidecar:0.1
+          imagePullPolicy: IfNotPresent
+          name: ie-sidecar
+          ports:
+          - containerPort: 9001
+            protocol: TCP
+          terminationMessagePath: "/dev/termination-log"
+          terminationMessagePolicy: File
+        terminationGracePeriodSeconds: 1
+        volumes:
+        - name: persistent-storage
+          volumeSource:
+            persistentVolumeClaim:
+              claimName: nfs-1
+    graph:
+      children: []
+      endpoint:
+        type: REST
+      name: sk-model
+      type: MODEL
+    name: mnist-classifier-sk
+    replicas: 1
