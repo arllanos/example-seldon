@@ -40,7 +40,7 @@ spec:
         template: seldon
         when: "{{workflow.parameters.deploy-model}} == true"		
 
-        
+
   - name: build-and-push
     inputs:
       artifacts:
@@ -175,11 +175,12 @@ spec:
                - endpoint:
                    type: "REST"
                  name: "mnist-classifier-sk-output-tx"
-                 type: "OUTPUT_TRANSFORMER"
+                 type: "TRANSFORMER"
                endpoint: 
                  type: "REST"
                name: "mnist-classifier-sk"
                type: "MODEL"
+               
              name: "mnist-classifier-sk"
              replicas: 1
 
