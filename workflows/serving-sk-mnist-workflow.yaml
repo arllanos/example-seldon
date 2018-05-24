@@ -18,7 +18,7 @@ spec:
     - name: docker-user
       value: smolina74
     - name: build-push-image
-      value: true
+      value: false
     - name: build-push-image-output-tx
       value: true      
     - name: deploy-model
@@ -92,7 +92,7 @@ spec:
     container:
       image: docker:17.10
       command: [sh,-c]
-      args: ["cd /src/example-seldon/models/sk_mnist/output_tx_runtime ; ./wrap.sh {{workflow.parameters.version}} {{workflow.parameters.docker-user}}"]
+      args: ["cd /src/example-seldon/models/sk_mnist/output_tx_runtime ; chmod 777 wrap.sh; ./wrap.sh {{workflow.parameters.version}} {{workflow.parameters.docker-user}}"]
       env:
       - name: DOCKER_HOST               #the docker daemon can be access on the standard port on localhost
         value: 127.0.0.1
