@@ -6,31 +6,31 @@ metadata:
       ---
       apiVersion: ambassador/v0
       kind:  Mapping
-      name:  seldon_mnist-classifier-sk_rest_mapping
-      prefix: /seldon/mnist-classifier-sk/
-      service: mnist-classifier-sk:8000
+      name:  seldon_mnist-classifier_rest_mapping
+      prefix: /seldon/mnist-classifier/
+      service: mnist-classifier:8000
       ---
       apiVersion: ambassador/v0
       kind:  Mapping
-      name:  mnist-classifier-sk_grpc_mapping
+      name:  mnist-classifier_grpc_mapping
       grpc: true
       prefix: /seldon.protos.Seldon/
       rewrite: /seldon.protos.Seldon/
       headers:
-        seldon: mnist-classifier-sk
-      service: mnist-classifier-sk:5001
+        seldon: mnist-classifier
+      service: mnist-classifier:5001
   creationTimestamp: null
   labels:
-    seldon-app: mnist-classifier-sk
-    seldon-deployment-id: mnist-classifier-sk
-  name: mnist-classifier-sk
+    seldon-app: mnist-classifier
+    seldon-deployment-id: mnist-classifier
+  name: mnist-classifier
   ownerReferences:
   - apiVersion: machinelearning.seldon.io/v1alpha1
     controller: true
     kind: SeldonDeployment
-    name: mnist-classifier-sk
+    name: mnist-classifier
     uid: fea5a5a5-5858-11e8-ba22-42010a8001a0
-  selfLink: /api/v1/namespaces/kubeflow-seldon/services/mnist-classifier-sk
+  selfLink: /api/v1/namespaces/kubeflow-seldon/services/mnist-classifier
 spec:
   ports:
   - name: http
@@ -42,7 +42,7 @@ spec:
     protocol: TCP
     targetPort: 5001
   selector:
-    seldon-app: mnist-classifier-sk
+    seldon-app: mnist-classifier
   sessionAffinity: None
   type: ClusterIP
 status:

@@ -6,27 +6,27 @@ metadata:
   creationTimestamp: null
   generation: 1
   labels:
-    app: mnist-classifier-mnist-classifier
+    app: mnist-classifier-mnist-classifier-sk
     seldon-app: mnist-classifier
     seldon-deployment-id: mnist-classifier
     seldon-type: deployment
-    version: v2
-    prediction-version: tf
-  name: mnist-classifier-mnist-classifier
+    version: v1
+    prediction-version: sk
+  name: mnist-classifier-mnist-classifier-sk
   ownerReferences:
   - apiVersion: machinelearning.seldon.io/v1alpha1
     controller: true
     kind: SeldonDeployment
-    name: mnist-classifier
+    name: mnist-classifier-sk
     uid: fea5a5a5-5858-11e8-ba22-42010a8001a0
-  selfLink: /apis/extensions/v1beta1/namespaces/kubeflow-seldon/deployments/mnist-classifier-mnist-classifier
+  selfLink: /apis/extensions/v1beta1/namespaces/kubeflow-seldon/deployments/mnist-classifier-mnist-classifier-sk
 spec:
   replicas: 1
   selector:
     matchLabels:
       seldon-app: mnist-classifier
-      prediction-version: tf
-      version: v2
+      prediction-version: sk
+      version: v1
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -41,8 +41,8 @@ spec:
       creationTimestamp: null
       labels:
         seldon-app: mnist-classifier
-        prediction-version: tf
-        version: v2
+        prediction-version: sk
+        version: v1
     spec:
       containers:
       - env:
@@ -51,12 +51,12 @@ spec:
         - name: PREDICTIVE_UNIT_PARAMETERS
           value: '[]'
         - name: PREDICTIVE_UNIT_ID
-          value: mnist-classifier
+          value: mnist-classifier-sk
         - name: PREDICTOR_ID
-          value: mnist-classifier
+          value: mnist-classifier-sk
         - name: SELDON_DEPLOYMENT_ID
-          value: mnist-classifier
-        image: smolina74/deepmnistclassifier_runtime:0.1
+          value: mnist-classifier-sk
+        image: seldonio/skmnistclassifier_runtime:0.1
         imagePullPolicy: Always
         lifecycle:
           preStop:
@@ -73,7 +73,7 @@ spec:
           tcpSocket:
             port: http
           timeoutSeconds: 1
-        name: mnist-classifier
+        name: mnist-classifier-sk
         ports:
         - containerPort: 9000
           name: http
@@ -92,7 +92,8 @@ spec:
         volumeMounts:
         - mountPath: /data
           name: persistent-storage
-      
+
+
 
 
       - env:
@@ -153,19 +154,6 @@ spec:
             cpu: 100m
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
-      
-
-
-      - image: smolina74/iesidecar:0.1
-        imagePullPolicy: IfNotPresent
-        name: ie-sidecar
-        ports:
-        - containerPort: 9001
-          protocol: TCP
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

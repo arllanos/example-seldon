@@ -93,8 +93,6 @@ spec:
         - mountPath: /data
           name: persistent-storage
       
-
-
       - env:
         - name: ENGINE_PREDICTOR
           value: eyJuYW1lIjoibW5pc3QtY2xhc3NpZmllci1zayIsImdyYXBoIjp7Im5hbWUiOiJzay1tb2RlbCIsInR5cGUiOiJNT0RFTCIsImVuZHBvaW50Ijp7InNlcnZpY2VfaG9zdCI6IjAuMC4wLjAiLCJzZXJ2aWNlX3BvcnQiOjkwMDAsInR5cGUiOiJSRVNUIn19LCJjb21wb25lbnRTcGVjIjp7Im1ldGFkYXRhIjp7ImxhYmVscyI6eyJzZWxkb24tYXBwIjoibW5pc3QtY2xhc3NpZmllciJ9fSwic3BlYyI6eyJ2b2x1bWVzIjpbeyJuYW1lIjoicGVyc2lzdGVudC1zdG9yYWdlIiwidm9sdW1lU291cmNlIjp7InBlcnNpc3RlbnRWb2x1bWVDbGFpbSI6eyJjbGFpbU5hbWUiOiJuZnMtMSJ9fX1dLCJjb250YWluZXJzIjpbeyJuYW1lIjoic2stbW9kZWwiLCJpbWFnZSI6InNlbGRvbmlvL3NrbW5pc3RjbGFzc2lmaWVyX3J1bnRpbWU6MC4xIiwicG9ydHMiOlt7Im5hbWUiOiJodHRwIiwiY29udGFpbmVyUG9ydCI6OTAwMH1dLCJlbnYiOlt7Im5hbWUiOiJQUkVESUNUSVZFX1VOSVRfU0VSVklDRV9QT1JUIiwidmFsdWUiOiI5MDAwIn0seyJuYW1lIjoiUFJFRElDVElWRV9VTklUX1BBUkFNRVRFUlMiLCJ2YWx1ZSI6IltdIn0seyJuYW1lIjoiUFJFRElDVElWRV9VTklUX0lEIiwidmFsdWUiOiJzay1tb2RlbCJ9LHsibmFtZSI6IlBSRURJQ1RPUl9JRCIsInZhbHVlIjoibW5pc3QtY2xhc3NpZmllci1zayJ9LHsibmFtZSI6IlNFTERPTl9ERVBMT1lNRU5UX0lEIiwidmFsdWUiOiJtbmlzdC1jbGFzc2lmaWVyLXNrIn1dLCJ2b2x1bWVNb3VudHMiOlt7Im5hbWUiOiJwZXJzaXN0ZW50LXN0b3JhZ2UiLCJtb3VudFBhdGgiOiIvZGF0YSJ9XSwibGl2ZW5lc3NQcm9iZSI6eyJoYW5kbGVyIjp7InRjcFNvY2tldCI6eyJwb3J0IjoiaHR0cCJ9fSwiaW5pdGlhbERlbGF5U2Vjb25kcyI6MTAsInBlcmlvZFNlY29uZHMiOjV9LCJyZWFkaW5lc3NQcm9iZSI6eyJoYW5kbGVyIjp7InRjcFNvY2tldCI6eyJwb3J0IjoiaHR0cCJ9fSwiaW5pdGlhbERlbGF5U2Vjb25kcyI6MTAsInBlcmlvZFNlY29uZHMiOjV9LCJsaWZlY3ljbGUiOnsicHJlU3RvcCI6eyJleGVjIjp7ImNvbW1hbmQiOlsiL2Jpbi9zaCIsIi1jIiwiL2Jpbi9zbGVlcCA1Il19fX0sImltYWdlUHVsbFBvbGljeSI6IkFsd2F5cyJ9XSwidGVybWluYXRpb25HcmFjZVBlcmlvZFNlY29uZHMiOjF9fSwicmVwbGljYXMiOjEsImFubm90YXRpb25zIjp7InByZWRpY3Rvcl92ZXJzaW9uIjoidjEifX0=
@@ -153,19 +151,6 @@ spec:
             cpu: 100m
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
-      
-
-
-      - image: smolina74/iesidecar:0.1
-        imagePullPolicy: IfNotPresent
-        name: ie-sidecar
-        ports:
-        - containerPort: 9001
-          protocol: TCP
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

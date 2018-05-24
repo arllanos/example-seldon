@@ -18,7 +18,7 @@ metadata:
     controller: true
     kind: SeldonDeployment
     name: mnist-classifier-sk
-    uid: 1c25abb5-5d06-11e8-8ac9-42010a80004c
+    uid: fea5a5a5-5858-11e8-ba22-42010a8001a0
   selfLink: /apis/extensions/v1beta1/namespaces/kubeflow-seldon/deployments/mnist-classifier-mnist-classifier-sk
 spec:
   replicas: 1

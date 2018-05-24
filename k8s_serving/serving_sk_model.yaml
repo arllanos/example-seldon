@@ -38,10 +38,15 @@ spec:
             persistentVolumeClaim:
               claimName: nfs-1
     graph:
-      children: []
-      endpoint:
-        type: REST
-      name: sk-model
-      type: MODEL
+      children:
+      - name: ie-sidecar
+        endpoint:
+          type: REST
+        type: MODEL
+      - name: sk-model
+        endpoint:
+          type: REST
+        type: MODEL
+      
     name: mnist-classifier-sk
     replicas: 1
