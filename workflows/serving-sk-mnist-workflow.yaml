@@ -10,7 +10,7 @@ spec:
   arguments:
     parameters:
     - name: version
-      value: 0.4
+      value: 0.46
     - name: github-user
       value: smolina74
     - name: github-revision
@@ -152,7 +152,6 @@ spec:
                        - 
                          mountPath: "/data"
                          name: "persistent-storage"
-
                    - 
                      image: "{{workflow.parameters.docker-user}}/skmnistclassifier_output_tx_runtime:{{workflow.parameters.version}}"
                      imagePullPolicy: "Always"
@@ -161,8 +160,6 @@ spec:
                        - 
                          mountPath: "/data"
                          name: "persistent-storage"
-
-
                  terminationGracePeriodSeconds: 1
                  volumes: 
                    - 
@@ -183,5 +180,3 @@ spec:
                
              name: "mnist-classifier-sk"
              replicas: 1
-
-
