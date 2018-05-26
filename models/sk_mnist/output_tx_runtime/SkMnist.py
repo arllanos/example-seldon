@@ -1,4 +1,5 @@
 from sklearn.externals import joblib
+import time
 
 class SkMnist(object):
     def __init__(self):
