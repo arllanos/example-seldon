@@ -1,5 +1,4 @@
 from sklearn.externals import joblib
-import time
 
 class SkMnist(object):
     def __init__(self):
@@ -7,7 +6,6 @@ class SkMnist(object):
 
 
     def transform_input(self, X, feature_names):
-        time.sleep(2)
         print "STARTING NEW TRANSFORMING input!!!"
         print X
         with open('/data/output.txt', 'w') as f:
