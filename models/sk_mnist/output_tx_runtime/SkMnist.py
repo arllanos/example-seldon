@@ -7,7 +7,7 @@ class SkMnist(object):
 
     def transform_input(self, X, feature_names):
         print "STARTING NEW TRANSFORMING input!!!"
-        print X:
+        print X
         print str(type(X))
         print str(X)
         print "END TRANSFORMING"
