@@ -7,7 +7,7 @@ spec:
   arguments:
     parameters:
     - name: version
-      value: 0.1
+      value: 0.11
     - name: github-user
       value: kubeflow
     - name: github-revision
@@ -15,7 +15,9 @@ spec:
     - name: docker-user
       value: smolina74
     - name: build-push-image
-      value: false
+      value: true
+    - name: build-push-image-output-tx
+      value: true   
     - name: deploy-model
       value: true
   volumes:
@@ -28,6 +30,9 @@ spec:
     - - name: build-push 
         template: build-and-push
         when: "{{workflow.parameters.build-push-image}} == true"
+    - - name: build-push-output-tx
+        template: build-and-push-output-tx
+        when: "{{workflow.parameters.build-push-image-output-tx}} == true"
     - - name: serve
         template: seldon
         when: "{{workflow.parameters.deploy-model}} == true"	
@@ -65,6 +70,49 @@ spec:
       securityContext:
         privileged: true                #the Docker daemon can only run in a privileged container
       mirrorVolumeMounts: true
+
+
+  - name: build-and-push-output-tx
+    inputs:
+      artifacts:
+      - name: argo-source
+        path: /src/example-seldon
+        git:
+          repo: https://github.com/{{workflow.parameters.github-user}}/example-seldon.git
+          revision: "{{workflow.parameters.github-revision}}"
+    container:
+      image: docker:17.10
+      command: [sh,-c]
+      args: ["cd /src/example-seldon/models/sk_mnist/output_tx_runtime ; chmod 777 wrap.sh; ./wrap.sh {{workflow.parameters.version}} {{workflow.parameters.docker-user}}"]
+      env:
+      - name: DOCKER_HOST               #the docker daemon can be access on the standard port on localhost
+        value: 127.0.0.1
+      - name: DOCKER_USERNAME  # name of env var
+        valueFrom:
+          secretKeyRef:
+            name: docker-credentials     # name of an existing k8s secret
+            key: username     # 'key' subcomponent of the secret
+      - name: DOCKER_PASSWORD  # name of env var
+        valueFrom:
+          secretKeyRef:
+            name: docker-credentials     # name of an existing k8s secret
+            key: password     # 'key' subcomponent of the secret
+      volumeMounts:
+      - name: my-secret-vol     # mount file containing secret at /secret/mountpath
+        mountPath: "/secret/mountpath"
+    sidecars:
+    - name: dind
+      image: docker:17.10-dind          #Docker already provides an image for running a Docker daemon
+      securityContext:
+        privileged: true                #the Docker daemon can only run in a privileged container
+      # mirrorVolumeMounts will mount the same volumes specified in the main container
+      # to the sidecar (including artifacts), at the same mountPaths. This enables
+      # dind daemon to (partially) see the same filesystem as the main container in
+      # order to use features such as docker volume binding.
+      mirrorVolumeMounts: true
+
+
+
   - name: seldon
     resource:                   #indicates that this is a resource template
       action: apply             #can be any kubectl action (e.g. create, delete, apply, patch)
@@ -104,11 +152,17 @@ spec:
                        persistentVolumeClaim: 
                          claimName: "nfs-1"
              graph: 
-               children: []
+               children: 
+               - endpoint:
+                   type: "REST"
+                 name: "mnist-classifier-sk-output-tx"
+                 type: "TRANSFORMER"
                endpoint: 
                  type: "REST"
                name: "mnist-classifier"
                type: "MODEL"
+
+
              name: "mnist-classifier"
              replicas: 1
 
