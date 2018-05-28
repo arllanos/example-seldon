@@ -13,7 +13,7 @@ spec:
     - name: github-revision
       value: master
     - name: docker-user
-      value: seldonio
+      value: smolina74
     - name: tfjob-version-hack
       value: 1
     - name: build-push-image

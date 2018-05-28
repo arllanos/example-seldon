@@ -10,7 +10,7 @@ spec:
   arguments:
     parameters:
     - name: version
-      value: 0.81
+      value: 0.82
     - name: github-user
       value: smolina74
     - name: github-revision
@@ -18,9 +18,9 @@ spec:
     - name: docker-user
       value: smolina74
     - name: build-push-image
-      value: true
+      value: false
     - name: build-push-image-output-tx
-      value: true      
+      value: false      
     - name: deploy-model
       value: true
   volumes:
@@ -131,12 +131,15 @@ spec:
        metadata: 
          labels: 
            app: "seldon"
+           version: "sk"
          name: "mnist-classifier-sk"
        spec: 
          annotations: 
            deployment_version: "v1"
            project_name: "MNIST Example"
          name: "mnist-classifier"
+         labels:
+            version: "sk"
          predictors: 
            - 
              annotations: 
