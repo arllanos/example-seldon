@@ -8,5 +8,5 @@ spec:
   precedence: 1
   route:
   - labels:
-      version: v2
+      version: sk1
   - weight: 100

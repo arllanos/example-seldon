@@ -1,7 +1,7 @@
 VERSION=$1
 REPO=$2
 
-IMAGE=skmnistclassifier_trainer2
+IMAGE=skmnistclassifier_trainer
 
 until docker ps; 
 do sleep 3; 

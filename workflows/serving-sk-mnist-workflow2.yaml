@@ -132,12 +132,12 @@ spec:
          labels: 
            app: "seldon"
            version: "sk"
-         name: "mnist-classifier-sk"
+         name: "mnist-classifier-sk2"
        spec: 
          annotations: 
            deployment_version: "v1"
            project_name: "MNIST Example"
-         name: "mnist-classifier"
+         name: "mnist-classifier2"
          labels:
             version: "sk"
          predictors: 
@@ -150,19 +150,12 @@ spec:
                    - 
                      image: "{{workflow.parameters.docker-user}}/skmnistclassifier_runtime:{{workflow.parameters.version}}"
                      imagePullPolicy: "Always"
-                     name: "mnist-classifier-sk"
+                     name: "mnist-classifier-sk2"
                      volumeMounts: 
                        - 
                          mountPath: "/data"
                          name: "persistent-storage"
-                   - 
-                     image: "{{workflow.parameters.docker-user}}/skmnistclassifier_output_tx_runtime:{{workflow.parameters.version}}"
-                     imagePullPolicy: "Always"
-                     name: "mnist-classifier-sk-output-tx"
-                     volumeMounts: 
-                       - 
-                         mountPath: "/data"
-                         name: "persistent-storage"
+           
                  terminationGracePeriodSeconds: 1
                  volumes: 
                    - 
@@ -171,15 +164,12 @@ spec:
                        persistentVolumeClaim: 
                          claimName: "nfs-1"
              graph: 
-               children: 
-               - endpoint:
-                   type: "REST"
-                 name: "mnist-classifier-sk-output-tx"
-                 type: "TRANSFORMER"
+               children: []
+
                endpoint: 
                  type: "REST"
-               name: "mnist-classifier-sk"
+               name: "mnist-classifier-sk2"
                type: "MODEL"
                
-             name: "mnist-classifier-sk"
+             name: "mnist-classifier-sk2"
              replicas: 1

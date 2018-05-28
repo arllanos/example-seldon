@@ -17,36 +17,36 @@ spec:
     componentSpec:
       spec:
         containers:
-        - image: seldonio/skmnistclassifier_runtime:0.1
+        - image: smolina74/skmnistclassifier_runtime:0.83
           imagePullPolicy: Always
           name: sk-model
           volumeMounts:
           - mountPath: "/data"
             name: persistent-storage
-        - image: smolina74/iesidecar:0.1
-          imagePullPolicy: IfNotPresent
-          name: ie-sidecar
-          ports:
-          - containerPort: 9001
-            protocol: TCP
-          terminationMessagePath: "/dev/termination-log"
-          terminationMessagePolicy: File
+
+        - image: smolina74/skmnistclassifier_output_tx_runtime:0.83"
+          imagePullPolicy: "Always"
+          name: "mnist-classifier-sk-output-tx"
+          volumeMounts:
+          - mountPath: "/data"
+            name: persistent-storage
+            
         terminationGracePeriodSeconds: 1
         volumes:
         - name: persistent-storage
           volumeSource:
             persistentVolumeClaim:
               claimName: nfs-1
-    graph:
-      children:
-      - name: ie-sidecar
-        endpoint:
-          type: REST
-        type: MODEL
-      - name: sk-model
-        endpoint:
-          type: REST
-        type: MODEL
+    graph: 
+      children: 
+      - endpoint:
+          type: "REST"
+        name: "mnist-classifier-sk-output-tx"
+        type: "TRANSFORMER"
+      endpoint: 
+        type: "REST"
+      name: "mnist-classifier-sk"
+      type: "MODEL"
       
     name: mnist-classifier-sk
     replicas: 1
