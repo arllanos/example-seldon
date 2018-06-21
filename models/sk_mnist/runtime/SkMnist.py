@@ -1,7 +1,9 @@
 from sklearn.externals import joblib
 
 class SkMnist(object):
-    def __init__(self):
+    def __init__(self, **kwargs):
+        print 'extra arguments'
+        print kwargs
         self.class_names = ["class:{}".format(str(i)) for i in range(10)]
         #self.clf = joblib.load('/data/sk.pkl') 
 

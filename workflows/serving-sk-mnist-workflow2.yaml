@@ -10,7 +10,7 @@ spec:
   arguments:
     parameters:
     - name: version
-      value: 0.83
+      value: 0.84
     - name: github-user
       value: smolina74
     - name: github-revision
@@ -18,7 +18,7 @@ spec:
     - name: docker-user
       value: smolina74
     - name: build-push-image
-      value: false
+      value: true
     - name: build-push-image-output-tx
       value: false      
     - name: deploy-model
