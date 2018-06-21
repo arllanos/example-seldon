@@ -18,7 +18,7 @@ spec:
     - name: docker-user
       value: smolina74
     - name: build-push-image
-      value: true
+      value: false
     - name: build-push-image-output-tx
       value: false      
     - name: deploy-model
