@@ -1,5 +1,5 @@
 VERSION=$1
-REPO=$DOCKER_USERNAME
+REPO=$2
 
 IMAGE=skmnistclassifier_runtime
 
@@ -14,9 +14,6 @@ tar -zxf source-to-image-v1.1.9a-40ad911d-linux-amd64.tar.gz
 until docker ps; 
 do sleep 3; 
 done; 
-
-echo $DOCKER_USERNAME
-echo "IMAGE INAME: ${REPO}/${IMAGE}:${VERSION}"
 
 
 ./s2i build . seldonio/seldon-core-s2i-python2 ${REPO}/${IMAGE}:${VERSION}
