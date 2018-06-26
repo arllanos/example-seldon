@@ -15,6 +15,7 @@ until docker ps;
 do sleep 3; 
 done; 
 
+echo $DOCKER_USERNAME
 echo "IMAGE INAME: ${REPO}/${IMAGE}:${VERSION}"
 
 
