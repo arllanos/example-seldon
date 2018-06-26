@@ -1,0 +1,55 @@
+apiVersion: 0.1.0
+environments:
+  cloud:
+    destination:
+      namespace: kubeflow-seldon
+      server: https://35.224.69.31
+    k8sVersion: v1.7.0
+    path: cloud
+  default:
+    destination:
+      namespace: default
+      server: https://35.224.69.31
+    k8sVersion: v1.8.0
+    path: default
+kind: ksonnet.io/app
+libraries:
+  argo:
+    gitVersion:
+      commitSha: 44d16b340b15bf6e44a828e888d9cca492fbab3d
+      refSpec: master
+    name: argo
+    registry: kubeflow
+  core:
+    gitVersion:
+      commitSha: 44d16b340b15bf6e44a828e888d9cca492fbab3d
+      refSpec: master
+    name: core
+    registry: kubeflow
+  seldon:
+    gitVersion:
+      commitSha: 44d16b340b15bf6e44a828e888d9cca492fbab3d
+      refSpec: master
+    name: seldon
+    registry: kubeflow
+  tf-job:
+    gitVersion:
+      commitSha: 44d16b340b15bf6e44a828e888d9cca492fbab3d
+      refSpec: master
+    name: tf-job
+    registry: kubeflow
+name: ks_kubeflow_seldon
+registries:
+  incubator:
+    gitVersion:
+      commitSha: 40285d8a14f1ac5787e405e1023cf0c07f6aa28c
+      refSpec: master
+    protocol: github
+    uri: github.com/ksonnet/parts/tree/master/incubator
+  kubeflow:
+    gitVersion:
+      commitSha: 44d16b340b15bf6e44a828e888d9cca492fbab3d
+      refSpec: master
+    protocol: github
+    uri: github.com/kubeflow/kubeflow/tree/master/kubeflow
+version: 0.0.1
