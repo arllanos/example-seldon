@@ -22,5 +22,6 @@ echo "Pushing image to ${REPO}/${IMAGE}:${VERSION}"
 echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME --password-stdin 
 docker push ${REPO}/${IMAGE}:${VERSION}
 
-dsleep 20; 
+sleep 20; 
 
+exit 0;
