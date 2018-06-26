@@ -1,5 +1,5 @@
 VERSION=$1
-REPO=$2
+REPO=$DOCKER_USERNAME
 
 IMAGE=skmnistclassifier_runtime
 
@@ -15,10 +15,10 @@ until docker ps;
 do sleep 3; 
 done; 
 
-echo "IMAGE INAME: ${DOCKER_USERNAME}/${IMAGE}:${VERSION}"
+echo "IMAGE INAME: ${REPO}/${IMAGE}:${VERSION}"
 
 
-./s2i build . seldonio/seldon-core-s2i-python2 ${DOCKER_USERNAME}/${IMAGE}:${VERSION}
+./s2i build . seldonio/seldon-core-s2i-python2 ${REPO}/${IMAGE}:${VERSION}
 docker images 
 echo "Pushing image to ${REPO}/${IMAGE}:${VERSION}"
 echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME --password-stdin 
