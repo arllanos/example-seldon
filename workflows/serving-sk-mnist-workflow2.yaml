@@ -10,7 +10,7 @@ spec:
   arguments:
     parameters:
     - name: version
-      value: 0.92
+      value: 0.93
     - name: github-user
       value: smolina74
     - name: github-revision
@@ -22,7 +22,7 @@ spec:
     - name: build-push-image-output-tx
       value: false      
     - name: deploy-model
-      value: false
+      value: true
   volumes:
   - name: my-secret-vol
     secret:
