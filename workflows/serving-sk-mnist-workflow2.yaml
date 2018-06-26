@@ -10,7 +10,7 @@ spec:
   arguments:
     parameters:
     - name: version
-      value: 0.83
+      value: 0.91
     - name: github-user
       value: smolina74
     - name: github-revision
@@ -18,11 +18,11 @@ spec:
     - name: docker-user
       value: smolina74
     - name: build-push-image
-      value: false
+      value: true
     - name: build-push-image-output-tx
       value: false      
     - name: deploy-model
-      value: true
+      value: false
   volumes:
   - name: my-secret-vol
     secret:
@@ -45,14 +45,14 @@ spec:
     inputs:
       artifacts:
       - name: argo-source
-        path: /src/example-seldon
+        path: /src/example-seldon2
         git:
           repo: https://github.com/{{workflow.parameters.github-user}}/example-seldon.git
           revision: "{{workflow.parameters.github-revision}}"
     container:
       image: docker:17.10
       command: [sh,-c]
-      args: ["cd /src/example-seldon/models/sk_mnist/runtime ; ./wrap.sh {{workflow.parameters.version}} {{workflow.parameters.docker-user}}"]
+      args: ["cd /src/example-seldon2/models/sk_mnist/runtime ; ./wrap.sh {{workflow.parameters.version}} {{workflow.parameters.docker-user}}"]
       env:
       - name: DOCKER_HOST               #the docker daemon can be access on the standard port on localhost
         value: 127.0.0.1
@@ -172,4 +172,4 @@ spec:
                type: "MODEL"
                
              name: "mnist-classifier-sk2"
-             replicas: 1
+             replicas: 2
