@@ -10,11 +10,7 @@ spec:
   arguments:
     parameters:
     - name: version
-<<<<<<< HEAD
-      value: 0.91
-=======
-      value: 0.87
->>>>>>> fa9e51483ef0693daca9a62148b825025fe72776
+      value: 0.92
     - name: github-user
       value: smolina74
     - name: github-revision

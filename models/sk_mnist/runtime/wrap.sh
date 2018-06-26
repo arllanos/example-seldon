@@ -15,6 +15,9 @@ until docker ps;
 do sleep 3; 
 done; 
 
+echo "IMAGE INAME: ${DOCKER_USERNAME}/${IMAGE}:${VERSION}"
+
+
 ./s2i build . seldonio/seldon-core-s2i-python2 ${DOCKER_USERNAME}/${IMAGE}:${VERSION}
 docker images 
 echo "Pushing image to ${REPO}/${IMAGE}:${VERSION}"
