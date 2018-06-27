@@ -8,6 +8,7 @@ class SkMnist(object):
         #self.clf = joblib.load('/data/sk.pkl') 
 
     def predict(self,X,feature_names):
+        print type(X)
         print X
         predictions = [[0.06666666666666667, 0.1, 0.03333333333333333, 0.03333333333333333, 0.06666666666666667, 0.1, 0.03333333333333333, 0.5333333333333333, 0.0, 0.03333333333333333]]
         return predictions
