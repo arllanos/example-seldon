@@ -20,10 +20,10 @@
       namespace: "kubeflow-seldon",
       reportUsage: true,
       tfDefaultImage: "null",
-      tfJobImage: "gcr.io/kubeflow-images-public/tf_operator:v20180615-b2ac020",
+      tfJobImage: "gcr.io/kubeflow-images-public/tf_operator:v0.2.0",
       tfJobUiServiceType: "ClusterIP",
       tfJobVersion: "v1alpha2",
-      usageId: "A9FBC2DC-5B64-43BA-ACE2-E0439BFD5731"
+      usageId: "43fea299-9388-484d-aaba-ab11b5492548"
     },
     seldon: {
       apifeImage: "seldonio/apife:0.1.6",

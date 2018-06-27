@@ -10,17 +10,13 @@ spec:
   arguments:
     parameters:
     - name: version
-      value: 0.95
+      value: 0.94
     - name: github-user
       value: smolina74
     - name: github-revision
       value: master
     - name: docker-user
       value: smolina74
-    - name: build-push-image
-      value: true
-    - name: deploy-model
-      value: true
   volumes:
   - name: my-secret-vol
     secret:
@@ -30,10 +26,6 @@ spec:
     steps:
     - - name: build-push 
         template: build-and-push
-        when: "{{workflow.parameters.build-push-image}} == true"
-    - - name: serve
-        template: seldon
-        when: "{{workflow.parameters.deploy-model}} == true"		
 
 
   - name: build-and-push
@@ -75,57 +67,3 @@ spec:
       # order to use features such as docker volume binding.
       mirrorVolumeMounts: true
 
-      
-
-  - name: seldon
-    resource:                   #indicates that this is a resource template
-      action: apply             #can be any kubectl action (e.g. create, delete, apply, patch)
-      #successCondition: ? 
-      manifest: |   #put your kubernetes spec here
-       apiVersion: "machinelearning.seldon.io/v1alpha1"
-       kind: "SeldonDeployment"
-       metadata: 
-         labels: 
-           app: "seldon"
-           version: "sk"
-         name: "mnist-classifier-sk2"
-       spec: 
-         annotations: 
-           deployment_version: "v1"
-           project_name: "MNIST Example"
-         name: "mnist-classifier2"
-         labels:
-            version: "sk"
-         predictors: 
-           - 
-             annotations: 
-               predictor_version: "v1"
-             componentSpec: 
-               spec: 
-                 containers: 
-                   - 
-                     image: "{{workflow.parameters.docker-user}}/skmnistclassifier_runtime:{{workflow.parameters.version}}"
-                     imagePullPolicy: "Always"
-                     name: "mnist-classifier-sk2"
-                     volumeMounts: 
-                       - 
-                         mountPath: "/data"
-                         name: "persistent-storage"
-           
-                 terminationGracePeriodSeconds: 1
-                 volumes: 
-                   - 
-                     name: "persistent-storage"
-                     volumeSource: 
-                       persistentVolumeClaim: 
-                         claimName: "nfs-1"
-             graph: 
-               children: []
-
-               endpoint: 
-                 type: "REST"
-               name: "mnist-classifier-sk2"
-               type: "MODEL"
-               
-             name: "mnist-classifier-sk2"
-             replicas: 2
