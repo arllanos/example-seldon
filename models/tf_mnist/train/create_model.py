@@ -33,4 +33,6 @@ if __name__ == '__main__':
 
     saver = tf.train.Saver()
 
+
+
     saver.save(sess, "/data/deep_mnist_model")
