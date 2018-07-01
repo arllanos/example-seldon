@@ -16,7 +16,7 @@ do sleep 3;
 done; 
 
 
-./s2i build . seldonio/seldon-core-s2i-python2 ${REPO}/${IMAGE}:${VERSION}
+./s2i build . seldonio/seldon-core-s2i-python3 ${REPO}/${IMAGE}:${VERSION}
 docker images 
 echo "Pushing image to ${REPO}/${IMAGE}:${VERSION}"
 echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME --password-stdin 

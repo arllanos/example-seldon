@@ -1,16 +1,14 @@
 from sklearn.externals import joblib
+import os
+import json
 
 class SkMnist(object):
     def __init__(self, **kwargs):
-        print 'extra arguments'
-        print kwargs
-        self.class_names = ["class:{}".format(str(i)) for i in range(10)]
-        #self.clf = joblib.load('/data/sk.pkl') 
+        json_conf = os.environ['config_dict'].replace('||','"')
+        config = json.loads(json_conf)
+        self.clf = joblib.load('/data/{model_id}_{model_version}_{owner_id}_{data_version}/SVM.pkl'.format(**config)) 
 
     def predict(self,X,feature_names):
-        print type(X)
-        print X
-        predictions = [[0.06666666666666667, 0.1, 0.03333333333333333, 0.03333333333333333, 0.06666666666666667, 0.1, 0.03333333333333333, 0.5333333333333333, 0.0, 0.03333333333333333]]
+        predictions = self.clf.predict(X)
         return predictions
 
-    
