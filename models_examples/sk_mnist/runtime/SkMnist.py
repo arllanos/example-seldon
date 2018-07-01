@@ -9,6 +9,6 @@ class SkMnist(object):
         self.clf = joblib.load('/data/{model_id}-{model_version}-{owner_id}-{data_version}/SVM.pkl'.format(**config)) 
 
     def predict(self,X,feature_names):
-        predictions = self.clf.predict(X)
+        predictions = self.clf.predict(X).reshape(1, -1)
         return predictions
 
