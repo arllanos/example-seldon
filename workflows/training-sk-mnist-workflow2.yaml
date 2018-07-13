@@ -1,0 +1,105 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: kubeflow-sk-train-
+spec:
+  entrypoint: workflow
+  arguments:
+    parameters:
+    - name: version
+      value: 0.1
+    - name: github-user
+      value: arllanos
+    - name: github-revision
+      value: master
+    - name: docker-user
+      value: arllanos
+    - name: build-push-image
+      value: true
+  volumes:
+  - name: my-secret-vol
+    secret:
+      secretName: iefwk-credentials     # name of an existing k8s secret
+  templates:
+  - name: workflow
+    steps:
+    - - name: build-push 
+        template: build-and-push
+        when: "{{workflow.parameters.build-push-image}} == true"
+    - - name: train
+        template: tfjob
+  - name: build-and-push
+    inputs:
+      artifacts:
+      - name: argo-source
+        path: /src/example-seldon
+        git:
+          repo: https://github.com/{{workflow.parameters.github-user}}/example-seldon.git
+          revision: "{{workflow.parameters.github-revision}}"
+          usernameSecret:
+            name: iefwk-credentials
+            key: username
+          passwordSecret:
+            name: iefwk-credentials
+            key: password
+    container:
+      image: docker:17.10
+      command: [sh,-c]
+      args: ["cd /src/example-seldon/models_examples/sk_mnist/train ; ./build_and_push.sh {{workflow.parameters.version}} {{workflow.parameters.docker-user}}"]
+      env:
+      - name: DOCKER_HOST               #the docker daemon can be access on the standard port on localhost
+        value: 127.0.0.1
+      - name: DOCKER_USERNAME  # name of env var
+        valueFrom:
+          secretKeyRef:
+            name: iefwk-credentials     # name of an existing k8s secret
+            key: dockerusername     # 'key' subcomponent of the secret
+      - name: DOCKER_PASSWORD  # name of env var
+        valueFrom:
+          secretKeyRef:
+            name: iefwk-credentials     # name of an existing k8s secret
+            key: dockerpassword     # 'key' subcomponent of the secret
+      volumeMounts:
+      - name: my-secret-vol     # mount file containing secret at /secret/mountpath
+        mountPath: "/secret/mountpath"
+    sidecars:
+    - name: dind
+      image: docker:17.10-dind          #Docker already provides an image for running a Docker daemon
+      securityContext:
+        privileged: true                #the Docker daemon can only run in a privileged container
+      mirrorVolumeMounts: true
+  - name: tfjob
+    resource:                   #indicates that this is a resource template
+      action: create             #can be any kubectl action (e.g. create, delete, apply, patch)
+      successCondition: status.succeeded == 1
+      manifest: |   #put your kubernetes spec here
+       apiVersion: "batch/v1"
+       kind: "Job"
+       metadata: 
+         name: "sk-train"
+         ownerReferences:
+         - apiVersion: argoproj.io/v1alpha1
+           kind: Workflow
+           controller: true
+           name: kubeflow-train
+           uid: {{workflow.uid}}
+       spec: 
+         template: 
+           metadata: 
+             name: "sk-train"
+           spec: 
+             containers: 
+               - 
+                 image: "{{workflow.parameters.docker-user}}/skmnistclassifier_trainer:{{workflow.parameters.version}}"
+                 name: "sk-train"
+                 volumeMounts: 
+                   - 
+                     mountPath: "/data"
+                     name: "persistent-storage"
+             restartPolicy: "Never"
+             volumes: 
+               - 
+                 name: "persistent-storage"
+                 persistentVolumeClaim: 
+                   claimName: "nfs-1"
+
