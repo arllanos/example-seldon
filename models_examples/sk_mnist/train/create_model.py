@@ -27,4 +27,9 @@ if __name__ == '__main__':
     if not os.path.exists(dump_dir):
         os.makedirs(dump_dir)
     fullfilename = '%s/%s' % (dump_dir, '%s.pkl' % model_version)
-    joblib.dump(classifier, fullfilename)
+    try:
+        joblib.dump(classifier, fullfilename)
+    except Exception as e:
+        print(str(e))
+        pass
+
