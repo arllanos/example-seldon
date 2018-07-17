@@ -7,7 +7,7 @@ spec:
   arguments:
     parameters:
     - name: version
-      value: 0.1
+      value: svm
     - name: github-user
       value: arllanos
     - name: github-revision
@@ -90,7 +90,7 @@ spec:
            spec: 
              containers: 
                - 
-                 image: "{{workflow.parameters.docker-user}}/skmnistclassifier_trainer:{{workflow.parameters.version}}"
+                 image: "{{workflow.parameters.docker-user}}/mnist_trainer:{{workflow.parameters.version}}"
                  name: "sk-train"
                  volumeMounts: 
                    - 

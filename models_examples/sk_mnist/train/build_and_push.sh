@@ -1,7 +1,7 @@
 VERSION=$1
 REPO=$2
 
-IMAGE=mnist_svm_0_trainer
+IMAGE=mnist_trainer
 
 until docker ps; 
 do sleep 3; 
