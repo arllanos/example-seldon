@@ -30,6 +30,6 @@ if __name__ == '__main__':
     try:
         joblib.dump(classifier, fullfilename)
     except Exception as e:
-        print(str(e))
+        print('Dump model error: %s' % str(e))
         pass
 
