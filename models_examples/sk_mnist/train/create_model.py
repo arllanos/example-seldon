@@ -26,7 +26,7 @@ if __name__ == '__main__':
     dump_dir = '%s/%s-%s-%s-%s' % (PERSISTENT_VOLUME, model_id, model_version, owner_id, data_version)
     if not os.path.exists(dump_dir):
         os.makedirs(dump_dir)
-    fullfilename = '%s/%s' % (dump_dir, '%s.pkl' % model_version)
+    fullfilename = '%s/%s' % (dump_dir, 'SVM.pkl')
     try:
         joblib.dump(classifier, fullfilename)
     except Exception as e:
