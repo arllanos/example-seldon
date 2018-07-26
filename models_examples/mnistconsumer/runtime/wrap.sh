@@ -1,7 +1,10 @@
 VERSION=$1
 REPO=$2
 
-IMAGE=mnist_predictor
+
+
+
+IMAGE=mnistconsumer_predictor
 
 export DOCKER_HOST="tcp://127.0.0.1:2375"
 echo "DOCKER_HOST set to $DOCKER_HOST"
