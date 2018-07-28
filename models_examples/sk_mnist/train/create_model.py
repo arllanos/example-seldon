@@ -1,12 +1,22 @@
 import numpy as np
 from sklearn import svm, metrics
-import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 from sklearn.externals import joblib
 import os
+import json
 
 if __name__ == '__main__':
     PERSISTENT_VOLUME = '/data'
+
+    # set dump dir based on config_dict env variable
+    try:
+        json_conf = os.environ['config_dict'].replace('||', '"')
+        config = json.loads(json_conf)
+        config['pv'] = PERSISTENT_VOLUME
+        dump_dir = '{pv}/{model_id}-{model_version}-{owner_id}-{data_version}'.format(**config)
+    except KeyError as e:
+        print('Missing env variable config_dict or mandatory key in it. %s' % e)
+        raise
 
     data_dir = '%s/tmp/tensorflow/mnist/input_data' % PERSISTENT_VOLUME
     if not os.path.exists(data_dir):
@@ -19,11 +29,6 @@ if __name__ == '__main__':
     classifier = svm.SVC(gamma=0.001)
     classifier.fit(train_data, train_labels)
 
-    model_id = 'mnist'
-    model_version = 'svm'
-    owner_id = '1'
-    data_version = '0'
-    dump_dir = '%s/%s-%s-%s-%s' % (PERSISTENT_VOLUME, model_id, model_version, owner_id, data_version)
     if not os.path.exists(dump_dir):
         os.makedirs(dump_dir)
     fullfilename = '%s/%s' % (dump_dir, 'SVM.pkl')
