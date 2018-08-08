@@ -18,5 +18,3 @@ class SkMnist(object):
         predictions = self.clf.predict(feature_matrix).reshape(1, -1)
         predictions_with_ids = [{'id': elem[0], 'values': elem[1]} for elem in zip(ids, feature_matrix)]
         return predictions_with_ids
-
-g
