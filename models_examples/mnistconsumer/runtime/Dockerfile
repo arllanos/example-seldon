@@ -11,7 +11,9 @@ RUN cd /tmp && \
     pip install --no-cache-dir -r requirements.txt
 
 RUN mkdir microservice
+RUN mkdir microservice/proto
 COPY ./ /microservice/
+COPY ./proto/ /microservice/proto/
 WORKDIR /microservice
 
 EXPOSE 5000
