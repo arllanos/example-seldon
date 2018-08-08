@@ -20,15 +20,15 @@ def build_elem(struct_elem):
 @app.route('/api/features', methods=['GET'])
 def get():
     data = json.loads(request.data)
+    logger.info("Received data: " + str(data))
     # data.ndarray is a 2 dimensional array. This means
     # an array containing arrays as elements.
     # Every element array contains then 2 sub-elements where, by convention, the first one corresponds to an ID
     # and the second one to an value which can be an scalar or even another array contains as first element (this is by convention) the id that identifies the rest of items in the array
     # (which not necessarily are scalars, they may be also arrays (think of a multi label classification for example
-    data.ndarray = [struct_elem for struct_elem in data.ndarray]
+    data.ndarray = [build_elem(struct_elem) for struct_elem in data.ndarray]
     data.names = ['a', 'b', 'c']
-    logger.info("Received IDs: " + str(ids))
-    return Response(json.dumps([{sample_id: [1,2,3]} for sample_id in ids]), mimetype=u'application/json')
+    return Response(json.dumps(data), mimetype=u'application/json')
 
 
 if __name__ == "__main__":
