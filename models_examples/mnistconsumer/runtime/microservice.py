@@ -74,6 +74,18 @@ def rest_datadef_to_array(datadef):
         features = np.array([])
     return features
 
+def un_numpyfy(elem):
+    if type(elem) is dict:
+        if 'values' in elem:
+            if type(elem['values']) is np.ndarray:
+                elem['values'] = elem['values'].tolist()
+            elif type(elem['values']) is np.int64:
+                elem['values'] = int(elem['values'])
+            elif type(elem['values']) is np.float64:
+                elem['values'] = float(elem['values'])
+            
+    return elem
+
 def array_to_rest_datadef(array,names,original_datadef):
     datadef = {"names":names}
     if original_datadef.get("tensor") is not None:
@@ -82,7 +94,7 @@ def array_to_rest_datadef(array,names,original_datadef):
             "values":array.ravel().tolist()
         }
     elif original_datadef.get("ndarray") is not None:
-        datadef["ndarray"] = array.tolist()
+        datadef["ndarray"] = [un_numpyfy(elem) for elem in array.tolist()]
     else:
         datadef["ndarray"] = array.tolist()
     return datadef
