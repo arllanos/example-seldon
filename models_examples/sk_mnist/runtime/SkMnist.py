@@ -16,6 +16,7 @@ class SkMnist(object):
         # some identification identifying that sample.
         ids = [elem['id'] for elem in X]
         feature_matrix = np.array([elem['values'] for elem in X])
-        predictions = self.clf.predict(feature_matrix).reshape(1, -1)
-        predictions_with_ids = [{'id': elem[0], 'values': elem[1]} for elem in zip(ids, feature_matrix)]
+        predictions = self.clf.predict(feature_matrix)
+        predictions_with_ids = [{'id': elem[0], 'values': elem[1]} for elem in zip(ids, predictions)]
+        print(predictions_with_ids)
         return predictions_with_ids
