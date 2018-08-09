@@ -1,6 +1,7 @@
 from sklearn.externals import joblib
 import os
 import json
+import numpy as np
 
 class SkMnist(object):
     def __init__(self, **kwargs):
