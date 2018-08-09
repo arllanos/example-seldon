@@ -22,7 +22,7 @@ def get_class_names(user_model):
     if hasattr(user_model,"class_names"):
         return user_model.class_names
     else:
-        return "[]"  # TODO raise exception
+        return []  # TODO raise exception
 
 
 # ----------------------------
