@@ -1,17 +1,10 @@
-FROM python:3.6
-
-
-RUN apt-get update -y
-RUN apt-get install -y python-pip python-dev build-essential
+FROM arllanos/ie_base_image
 
 COPY /requirements.txt /tmp/
-COPY /seldon_requirements.txt /tmp/
+
 RUN cd /tmp && \
-    pip install --no-cache-dir -r seldon_requirements.txt && \
     pip install --no-cache-dir -r requirements.txt
 
-RUN mkdir microservice
-COPY ./ /microservice/
 WORKDIR /microservice
 
 EXPOSE 5000
